@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	text-align: unset;
+}
+
+.ltr {
+	direction: ltr;
+}
+
+.chevron-prev-custom svg{
+	transform: rotate(180deg);
+}
+
+td {
+	white-space: nowrap !important;
+}
