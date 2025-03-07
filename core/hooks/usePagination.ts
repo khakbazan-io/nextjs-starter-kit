@@ -2,49 +2,80 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSessionStorage } from "usehooks-ts";
 
+/**
+ * Type definition for the pagination hook.
+ */
 export type PaginationType = {
-  currentPage: number;
-  pageSize: number;
-  onPageSelect: (page: number) => void;
-  calcIndex: (index: number) => number;
+  currentPage: number; // The current page number
+  pageSize: number; // Number of items per page
+  onPageSelect: (page: number) => void; // Function to update the selected page
+  calcIndex: (index: number) => number; // Function to calculate the item index
 };
 
+/**
+ * Parameters for the usePagination hook.
+ */
 type Params = {
-  limit?: number;
-  id: string;
+  limit?: number; // The default number of items per page
+  id: string; // A unique identifier for session storage
+  isZeroBase?: boolean; // Whether pagination starts from 0 instead of 1
 };
 
-export function usePagination({ id, limit = 15 }: Params): PaginationType {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setPageSize] = useState(limit);
+/**
+ * A custom hook to manage pagination with session storage support.
+ *
+ * @param {Params} params - The parameters for pagination.
+ * @returns {PaginationType} An object containing pagination state and utility functions.
+ */
+export function usePagination({
+  id,
+  limit = 15,
+  isZeroBase = false,
+}: Params): PaginationType {
+  // Manage the current page state
+  const [currentPage, setCurrentPage] = useState<number>(isZeroBase ? 0 : 1);
+  // Manage the page size state
+  const [pageSize] = useState<number>(limit);
 
-  const [savedPage, setSavedPage, removeSavedPage] = useSessionStorage(id, 0);
+  // Manage session storage to persist the page number
+  const [savedPage, setSavedPage, removeSavedPage] = useSessionStorage<number>(
+    id,
+    isZeroBase ? 0 : 1
+  );
 
+  /**
+   * Updates the selected page and saves it to session storage.
+   *
+   * @param {number} page - The page number to select.
+   */
   const onPageSelect = useCallback(
     (page: number) => {
-      setSavedPage(page - 1);
-
-      setCurrentPage(page - 1);
+      const newPage = isZeroBase ? page : page;
+      setSavedPage(newPage);
+      setCurrentPage(newPage);
     },
-    [id]
+    [setSavedPage, isZeroBase]
   );
 
+  /**
+   * Calculates the index of an item based on the current page.
+   *
+   * @param {number} index - The index of the item in the current page.
+   * @returns {number} The calculated global index of the item.
+   */
   const calcIndex = useCallback(
-    (index: number) => {
-      return index + 1 + currentPage * pageSize;
-    },
-    [currentPage, pageSize]
+    (index: number) => index + currentPage * pageSize + (isZeroBase ? 0 : 1),
+    [currentPage, pageSize, isZeroBase]
   );
 
+  // Load the saved page from session storage on mount
   useEffect(() => {
-    if (savedPage) {
-      setCurrentPage(Number(savedPage));
-
+    if (savedPage !== undefined) {
+      setCurrentPage(savedPage);
       removeSavedPage();
-
       sessionStorage.removeItem(id);
     }
-  }, [id]);
+  }, [id, savedPage, removeSavedPage]);
 
   return {
     currentPage,
