@@ -1,1 +1,1 @@
-// this folder is for hooks that will use only in this project
+// Add and export only the hooks that are relevant to this specific project.
