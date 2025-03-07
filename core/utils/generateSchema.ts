@@ -1,37 +1,52 @@
 import { site } from "../config";
 import { toIsoDate } from "./toIsoDate";
 
+/**
+ * Properties required to generate an Article Schema.
+ */
 type ArticleSchemaProps = {
-  title: string;
-  description: string;
-  slug: string;
-  createdAt: number;
-  updatedAt: number;
-  image: string;
+  title: string; // Title of the article
+  description: string; // Short description of the article
+  slug: string; // URL slug of the article
+  createdAt: number; // Creation timestamp (milliseconds)
+  updatedAt: number; // Last modified timestamp (milliseconds)
+  image: string; // Image URL for the article
 };
 
+/**
+ * Properties required to generate a Course Schema.
+ */
 type CourseSchemaProps = {
-  title: string;
-  description: string;
-  slug: string;
-  createdAt: number;
-  image: string;
-  offPrice: string;
-  category: string;
+  title: string; // Title of the course
+  description: string; // Course description
+  slug: string; // URL slug of the course
+  createdAt: number; // Creation timestamp (milliseconds)
+  image: string; // Course cover image URL
+  offPrice: string; // Discounted price (as a string)
+  category: string; // Course category
   schema: {
-    about: string;
-    requirements: string;
-    audience: string;
-    neededTimeInWeek: string;
+    about: string; // Brief description of the course topic
+    requirements: string; // Course prerequisites
+    audience: string; // Target audience
+    neededTimeInWeek: string; // Recommended weekly study time
   };
 };
 
+/**
+ * Properties required to generate a Breadcrumb Schema.
+ */
 type BreadcrumbSchemaProps = {
-  title: string;
-  slug: string;
-  type: "course" | "blog";
+  title: string; // The name of the current page
+  slug: string; // The page slug
+  type: "course" | "blog"; // Page type (blog article or course)
 };
 
+/**
+ * Generates structured **Course Schema** for SEO and search engine understanding.
+ *
+ * @param {CourseSchemaProps} params - Course data for generating schema.
+ * @returns {object} A structured **Course Schema (JSON-LD)**.
+ */
 export function generateCourseSchema({
   createdAt,
   description,
@@ -74,7 +89,7 @@ export function generateCourseSchema({
     },
     offers: {
       "@type": "Offer",
-      price: Number(offPrice) * 10,
+      price: Number(offPrice) * 10, // Convert to Iranian Rial (IRR)
       priceCurrency: "IRR",
       category: category,
       url: `${site.url}/courses/${slug}`,
@@ -97,6 +112,12 @@ export function generateCourseSchema({
   };
 }
 
+/**
+ * Generates structured **Article Schema** for SEO and search engines.
+ *
+ * @param {ArticleSchemaProps} params - Article data for generating schema.
+ * @returns {object} A structured **Article Schema (JSON-LD)**.
+ */
 export function generateArticleSchema({
   createdAt,
   description,
@@ -139,6 +160,12 @@ export function generateArticleSchema({
   };
 }
 
+/**
+ * Generates structured **Breadcrumb Schema** for better navigation and SEO.
+ *
+ * @param {BreadcrumbSchemaProps} params - Breadcrumb data for schema generation.
+ * @returns {object} A structured **Breadcrumb Schema (JSON-LD)**.
+ */
 export function generateBreadcrumbSchema({
   type,
   slug,
