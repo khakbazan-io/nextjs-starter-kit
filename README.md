@@ -1,65 +1,39 @@
-## License
-
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
-
-
-
-
 # 🚀 Next.js 15 Starter Kit
 
 ## 📖 Overview
 This is a **starter kit project** built with:
-- **Next.js 15**
+- **Next.js 15** (latest app directory features)
 - **TypeScript**
 - **React Query**
 - **HeroUI**
+- **Tailwind CSS**
 
-It provides a **well-structured architecture**, essential tools, and an **abstraction layer** to help developers quickly start new projects with **a solid foundation**.
-
-## How to Use
-
-### Install dependencies
-
-Install dependencies via `pnpm`:
-
-```bash
-pnpm install
-```
-
-### .env File
-Remove the .sample from .env.local.sample
-
-### Run the development server
-```bash
-pnpm dev
-```
-
----
+This project provides **a well-structured architecture**, essential tools, and an **abstraction layer** to help developers **quickly start new projects** with **a solid foundation**.
 
 ## 📂 Project Structure
 
 ### 🛠 **core/**
-This folder contains the **abstraction layer** of the project, including:
-- **UI Kit** (`core/common/`): HeroUI components or our custom UI components.
-- **Core Hooks** (`core/hooks/`): Typed, well-documented hooks
-- **Core Utilities** (`core/utils/`): Useful functions
-- **Configurations** (`core/config/`):  
+This folder contains **the project's abstraction layer**, including:
+- **UI Kit (`core/common/`)** → Custom HeroUI components & reusable UI components.
+- **Core Hooks (`core/hooks/`)** → Well-documented, reusable hooks.
+- **Core Utilities (`core/utils/`)** → Helper functions.
+- **Configurations (`core/config/`)** → Global configurations:
   - **Axios Interceptor** for API requests.
-  - **Site Configuration (`site.ts`)** – Contains essential site details:
-    - Website name, author, API base URL, site address, slogan, etc.
-- **Core Components** (`core/components/`):  
-  - **Controlled Input & Select** – Custom form components and ...
+  - **Site Config (`site.ts`)** – Defines site metadata (name, author, API base URL, slogan, etc.).
+- **Core Components (`core/components/`)** → Essential components:
+  - `ControlledInput` – Custom input component with validation.
+  - `ControlledSelect` – Custom select component.
 
 ---
 
 ### 🎨 **common/**
-This folder contains **UI components that are project-specific** but **not suitable for the abstraction layer**.
+Contains **project-specific UI components** that are **not part of the core abstraction layer**.
 
 ---
 
 ### 📦 **components/**
-This folder holds **project-specific components** that belong to different features.  
-For example, for a **Users List Page**, the structure would be:
+Holds **feature-specific components**.  
+For example, if implementing a **Users List Page**, the structure should be:
 
 ```
 components/
@@ -70,14 +44,14 @@ components/
 ---
 
 ### 🪝 **hooks/**
-Contains **custom hooks** that are **specific to this project**.
+Contains **custom hooks that are specific to this project**.
 
 ---
 
 ### 📑 **models/**
 The `models/` folder is **a structured API layer** that follows a clear pattern.  
 
-Each API has its **own folder** that contains:
+Each API has its **own folder**, containing:
 - **`hooks/`** → React Query hooks for API calls.
 - **`options/`** → Query configurations for API calls.
 - **`types/`** → TypeScript types for API responses & hooks.
@@ -106,7 +80,7 @@ For every API, developers must:
 4. **Define API response types** in `types/` (e.g., `getUsersList.ts`).
 5. **Export everything in `index.ts`**.
 
-For more details, check the `README.md` file inside `models/`.
+For more details, check the `README.md` inside `models/`.
 
 ---
 
@@ -135,7 +109,8 @@ Contains **React context providers** for managing global state.
 
 ---
 
-## 🏗 **Developing in This Structure**
+## 🏗 **Best Practices for Feature Development**
+
 When adding components to a feature folder, follow this **file structure**:
 
 For example, if developing **`users-list/`**, the structure should be:
@@ -148,12 +123,37 @@ users-list/
  ├── constants.ts     # Constants used in the component
 ```
 
-### ✅ **Best Practices**
+### ✅ **Development Guidelines**
 ✔ **Follow the folder structure strictly.**  
-✔ **Use core/hooks & core/utils for reusable logic.**  
-✔ **Re-export everything in index.ts for clean imports.**  
+✔ **Use `core/hooks` & `core/utils` for reusable logic.**  
+✔ **Re-export everything in `index.ts` for clean imports.**  
 ✔ **Follow TypeScript best practices for type safety.**  
 
+---
+
+## 🏁 Getting Started
+
+### **1️⃣ Install Dependencies**
+This project uses **pnpm**. Install dependencies by running:
+```sh
+pnpm install
+```
+
+### **2️⃣ .env File**
+Remove .sample from .env.local.sample:
+
+
+### **3️⃣ Start the Development Server**
+Run the Next.js development server with:
+```sh
+pnpm dev
+```
+
+### **4️⃣ Build for Production**
+To generate an optimized production build, run:
+```sh
+pnpm build
+```
 ---
 
 ## 🎉 Now your project is well-structured, maintainable, and scalable! 🚀
