@@ -1,4 +1,4 @@
-export { PropsProvider, useProps } from "./props-provider";
+export { PropsProvider, usePropsProvider } from "./props-provider";
 export {
   FiltersContext,
   FiltersProvider,
